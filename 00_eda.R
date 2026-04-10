@@ -9,8 +9,7 @@ library(gridExtra)
 library(e1071)
 
 # Change this to your dataset file
-DATASET = file.path("C:/Users/diego/Downloads/Stellar-Classificaton", "data", "star_classification.csv")
-
+DATASET = file.path("C:/Users/X0/Downloads/Stellar-Classification", "data", "df_clean.rds")
 
 df <- read.csv(DATASET)
 
@@ -103,9 +102,17 @@ do.call(grid.arrange, c(plots2, ncol = 2))
 # Sample down for plotting speed
 set.seed(42)
 df_sample <- df_clean %>% sample_n(2000)
-
+https://claude.ai/chat/8a8bdb2a-63da-4df1-8239-b61d794af4d2
 ggpairs(df_sample, columns = c("u", "g", "r", "i", "z", "redshift"),
         aes(color = class, alpha = 0.4),
         upper = list(continuous = wrap("cor", size = 3)),
         lower = list(continuous = wrap("points", size = 0.5))) +
+  theme_minimal()
+
+# Density Distributions of redshift 
+ggplot(df_clean, aes(x = redshift, fill = class)) +
+  geom_density(alpha = 0.4, adjust = 2) +
+  xlim(-0.1, 3.0) +
+  ylim(0, 3) +
+  labs(title = "Redshift Distribution by Class", x = "Redshift", y = "Density") +
   theme_minimal()
